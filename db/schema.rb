@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_22_013028) do
+ActiveRecord::Schema.define(version: 2020_02_22_013830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "functions", force: :cascade do |t|
+    t.bigint "namespace_id", null: false
+    t.string "name"
+    t.json "ast", default: {}
+    t.integer "callee_ids", default: [], array: true
+    t.integer "number_of_statements", default: 0
+    t.json "arguments", default: {}
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["callee_ids"], name: "index_functions_on_callee_ids"
+    t.index ["namespace_id"], name: "index_functions_on_namespace_id"
+  end
 
   create_table "namespaces", force: :cascade do |t|
     t.string "name"
@@ -21,4 +34,5 @@ ActiveRecord::Schema.define(version: 2020_02_22_013028) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "functions", "namespaces"
 end
