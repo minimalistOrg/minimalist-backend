@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_22_013830) do
+ActiveRecord::Schema.define(version: 2020_02_23_010327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 2020_02_22_013830) do
     t.json "arguments", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "aliases", default: [], array: true
+    t.index ["aliases"], name: "index_functions_on_aliases", using: :gin
     t.index ["callee_ids"], name: "index_functions_on_callee_ids"
     t.index ["namespace_id"], name: "index_functions_on_namespace_id"
   end
